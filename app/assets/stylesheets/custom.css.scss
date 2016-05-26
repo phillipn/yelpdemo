@@ -1,3 +1,6 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
 .jumbotron {
   background-color: #fdf7e1;
   border: 1px solid #f2cb3b;
@@ -26,4 +29,20 @@
 }
 .container-fluid {
     padding: 10px 120px;
+}
+.footer {
+  background-color: #c41200;
+  p {
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 25px;
+  }
+}
+
+.field_with_errors {
+  @extend .has-error;
+  .form_control {
+    color: red;
+  }
 }
