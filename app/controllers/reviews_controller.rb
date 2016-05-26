@@ -1,20 +1,10 @@
 class ReviewsController < ApplicationController
-  before_action :set_review, only: [:show, :edit, :update, :destroy]
-
-  # GET /reviews
-  # GET /reviews.json
-  def index
-    @reviews = Review.all
-  end
-
-  # GET /reviews/1
-  # GET /reviews/1.json
-  def show
-  end
+  before_action :set_review, only: [:edit, :update, :destroy]
+  before_action :authenticate_user!
 
   # GET /reviews/new
   def new
-    @review = Review.new
+    @review = current_user.reviews.build
   end
 
   # GET /reviews/1/edit
@@ -24,7 +14,7 @@ class ReviewsController < ApplicationController
   # POST /reviews
   # POST /reviews.json
   def create
-    @review = Review.new(review_params)
+    @review = current_user.reviews.build(review_params)
 
     respond_to do |format|
       if @review.save
