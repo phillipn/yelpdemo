@@ -1,27 +1,60 @@
-<p>
-  <strong>Name:</strong>
-  <%= @restaurant.name %>
-</p>
+<div class="row">
+  <div class="col-md-3">
+    <%= image_tag @restaurant.image_url %>
 
-<p>
-  <strong>Address:</strong>
-  <%= @restaurant.address %>
-</p>
+    <h2>
+      <%= @restaurant.name %>
+    </h2>
 
-<p>
-  <strong>Phone:</strong>
-  <%= @restaurant.phone %>
-</p>
+    <div class='star-rating' data-score= <%= @avg_rating %> ></div>
+    <p> <%= "#{@reviews.length} reviews" %> </p>
 
-<p>
-  <strong>Website:</strong>
-  <%= @restaurant.website %>
-</p>
+    <p>
+      <strong>Address:</strong>
+      <%= @restaurant.address %>
+    </p>
 
+    <p>
+      <strong>Phone:</strong>
+      <%= @restaurant.phone %>
+    </p>
 
-<%= image_tag @restaurant.image_url if image_attached? %>
+    <p>
+      <strong>Website:</strong>
+      <%= link_to @restaurant.website, @restaurant.website %>
+    </p>
 
-
+    <%= link_to "Write Review", new_restaurant_review_path(@restaurant), class: "btn btn-primary" %>
+  </div>
+   
+  <div class="col-md-9">
+    <% if @reviews.blank? %>
+      <h3>No reviews yet. Be the first to write one!</h3>
+    <% else %>
+      <table class="table">
+		  <tbody>
+		    <% @reviews.each do |review| %>
+		      <tr>
+		        <td>
+		          <div class="star-rating" data-score= <%= review.rating %> ></div>
+		          <p><%= review.comment.gsub(/\n/, '<br/>') %></p>
+		        </td>
+		      </tr>
+		    <% end %>
+		  </tbody>
+		</table>
+    <% end %>
+  </div>
+</div>
 
 <%= link_to 'Edit', edit_restaurant_path(@restaurant), class: "btn btn-link" %> |
 <%= link_to 'Back', restaurants_path, class: "btn btn-link" %>
+
+<script>
+  $('.star-rating').raty({
+    path: 'https://s3.amazonaws.com/yelpdemo-test/stars',
+    score: function() {
+      return $(this).attr('data-score');
+    }
+  });
+</script>

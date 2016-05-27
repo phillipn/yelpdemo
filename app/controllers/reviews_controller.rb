@@ -13,7 +13,7 @@ class ReviewsController < ApplicationController
   def edit
   end
 
-  # POST /reviews
+    # POST /reviews
   # POST /reviews.json
   def create
     @review = current_user.reviews.build(review_params)
@@ -21,7 +21,7 @@ class ReviewsController < ApplicationController
 
     respond_to do |format|
       if @review.save
-        format.html { redirect_to root_path, notice: 'Review was successfully created.' }
+        format.html { redirect_to @restaurant, notice: 'Review was successfully created.' }
         format.json { render :show, status: :created, location: @review }
       else
         format.html { render :new }
