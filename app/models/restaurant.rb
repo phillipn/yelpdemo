@@ -10,4 +10,8 @@ class Restaurant < ActiveRecord::Base
     message: "must start with http:// or https://" }
   validates :address, format: { with: /\A\d+[^,]+,[^,]+, [A-Z]{2} \d{5}\z/,
     message: "must be in the format 350 Fifth Avenue, New York, NY 10118" }
+
+ 	def self.search(search)
+	  where("name LIKE ?", "%#{search}%") 
+	end
 end

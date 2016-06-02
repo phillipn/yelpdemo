@@ -6,19 +6,24 @@ class RestaurantsController < ApplicationController
 
   # GET /restaurants
   # GET /restaurants.json
+
   def index
-    @restaurants = Restaurant.all
+    if params[:search]
+      @restaurants = Restaurant.paginate(page: params[:page]).search(params[:search]).order("name DESC")
+    else
+      @restaurants = Restaurant.paginate(page: params[:page]).order("name DESC")
+     end
   end
 
   # GET /restaurants/1
   # GET /restaurants/1.json
   def show
-    @reviews = Review.where(restaurant_id: params[:id]).order("created_at DESC")
+    @reviews = Review.paginate(page: params[:page]).where(restaurant_id: params[:id]).order("created_at DESC")
 
     if @reviews.blank?
       @avg_rating = 0
     else
-      @avg_rating = @reviews.average(:rating).round(2)
+      @avg_rating = Review.all.average(:rating).round(2)
     end
   end
 
